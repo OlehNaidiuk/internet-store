@@ -1,4 +1,4 @@
-package com.naidiuk.mok_dao;
+package com.naidiuk.mok_dao.service;
 
 import com.naidiuk.entity.Client;
 import com.naidiuk.entity.Product;

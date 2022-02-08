@@ -1,9 +1,15 @@
 package com.naidiuk.entity;
 
+import com.naidiuk.service.ClientService;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class Client {
+public class Client implements ClientService {
     private int id;
     private String name;
     private String surname;
@@ -79,7 +85,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "\nClient\n{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
@@ -89,5 +95,72 @@ public class Client {
                 ", cardBalance=" + cardBalance +
                 ", products=" + products +
                 '}';
+    }
+
+    @Override
+    public void addProduct(Product product) {
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        products.add(product);
+    }
+
+    @Override
+    public void showAllProducts() {
+        if (products == null || products.isEmpty()) {
+            System.out.println("Your basket is empty");
+        }
+        for (Product product : products) {
+            System.out.println(product);
+        }
+    }
+
+    @Override
+    public void sortProductsByManufacturedDateInAscending() {
+        Comparator<Product> sortByManufacturedDateInAscendingComparator =
+                (o1, o2) -> o1.getManufacturedDate().compareTo(o2.getManufacturedDate());
+        products.sort(sortByManufacturedDateInAscendingComparator);
+    }
+
+    @Override
+    public void sortProductsByManufacturedDateInDescending() {
+        Comparator<Product> sortByManufacturedDateInDescendingComparator =
+                (o1, o2) -> o2.getManufacturedDate().compareTo(o1.getManufacturedDate());
+        products.sort(sortByManufacturedDateInDescendingComparator);
+    }
+
+    @Override
+    public void sortProductsByExpirationDateInAscending() {
+
+    }
+
+    @Override
+    public void sortProductsByExpirationDateInDescending() {
+
+    }
+
+    @Override
+    public void sortProductsByProductType() {
+
+    }
+
+    @Override
+    public void editData() {
+
+    }
+
+    @Override
+    public void deleteOneProduct() {
+
+    }
+
+    @Override
+    public void deleteAllProducts() {
+
+    }
+
+    @Override
+    public void showProductsThatClientCanBuyBasedOnHisBalance() {
+
     }
 }

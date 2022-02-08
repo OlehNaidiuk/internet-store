@@ -1,12 +1,13 @@
 package com.naidiuk.entity;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 public class Product {
     private int id;
     private String name;
     private ProductType productType;
-    private LocalDateTime dateAndTimeOfManufacture;
+    private LocalDateTime manufacturedDate;
     private LocalDateTime expirationDate;
     private double price;
     private double discount;
@@ -35,12 +36,12 @@ public class Product {
         this.productType = productType;
     }
 
-    public LocalDateTime getDateAndTimeOfManufacture() {
-        return dateAndTimeOfManufacture;
+    public LocalDateTime getManufacturedDate() {
+        return manufacturedDate;
     }
 
-    public void setDateAndTimeOfManufacture(LocalDateTime dateAndTimeOfManufacture) {
-        this.dateAndTimeOfManufacture = dateAndTimeOfManufacture;
+    public void setManufacturedDate(LocalDateTime manufacturedDate) {
+        this.manufacturedDate = manufacturedDate;
     }
 
     public LocalDateTime getExpirationDate() {
@@ -69,14 +70,14 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "\nProduct\n{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", productType=" + productType +
-                ", dateAndTimeOfManufacture=" + dateAndTimeOfManufacture +
+                ", manufacturedDate=" + manufacturedDate +
                 ", expirationDate=" + expirationDate +
                 ", price=" + price +
                 ", discount=" + discount +
-                '}';
+                "}";
     }
 }
