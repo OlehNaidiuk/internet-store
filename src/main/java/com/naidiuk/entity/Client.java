@@ -105,9 +105,7 @@ public class Client implements ClientService {
 
     @Override
     public void showAllProducts() {
-        if (products == null || products.isEmpty()) {
-            System.out.println("Your basket is empty");
-        }
+        checkClientBasket();
         for (Product product : products) {
             System.out.println(product);
         }
@@ -115,6 +113,7 @@ public class Client implements ClientService {
 
     @Override
     public void sortProductsByManufacturedDateInAscending() {
+        checkClientBasket();
         Comparator<Product> sortByManufacturedDateInAscendingComparator =
                 (o1, o2) -> o1.getManufacturedDate().compareTo(o2.getManufacturedDate());
         products.sort(sortByManufacturedDateInAscendingComparator);
@@ -122,6 +121,7 @@ public class Client implements ClientService {
 
     @Override
     public void sortProductsByManufacturedDateInDescending() {
+        checkClientBasket();
         Comparator<Product> sortByManufacturedDateInDescendingComparator =
                 (o1, o2) -> o2.getManufacturedDate().compareTo(o1.getManufacturedDate());
         products.sort(sortByManufacturedDateInDescendingComparator);
@@ -129,6 +129,7 @@ public class Client implements ClientService {
 
     @Override
     public void sortProductsByExpirationDateInAscending() {
+        checkClientBasket();
         Comparator<Product> sortByExpirationDateInAscendingComparator =
                 (o1, o2) -> o1.getExpirationDate().compareTo(o2.getExpirationDate());
         products.sort(sortByExpirationDateInAscendingComparator);
@@ -136,6 +137,7 @@ public class Client implements ClientService {
 
     @Override
     public void sortProductsByExpirationDateInDescending() {
+        checkClientBasket();
         Comparator<Product> sortByExpirationDateInDescendingComparator =
                 (o1, o2) -> o2.getExpirationDate().compareTo(o1.getExpirationDate());
         products.sort(sortByExpirationDateInDescendingComparator);
@@ -143,7 +145,10 @@ public class Client implements ClientService {
 
     @Override
     public void sortProductsByProductType() {
-
+        checkClientBasket();
+        Comparator<Product> sortProductsByProductTypeComparator =
+                (o1, o2) -> o1.getProductType().compareTo(o2.getProductType());
+        products.sort(sortProductsByProductTypeComparator);
     }
 
     @Override
@@ -153,16 +158,25 @@ public class Client implements ClientService {
 
     @Override
     public void deleteOneProduct() {
+        checkClientBasket();
 
     }
 
     @Override
     public void deleteAllProducts() {
-
+        checkClientBasket();
+        products.clear();
     }
 
     @Override
-    public void showProductsThatClientCanBuyBasedOnHisBalance() {
+    public void showProductsThatClientCanBuyBasedOnHisCardBalance() {
+        checkClientBasket();
 
+    }
+
+    private void checkClientBasket() {
+        if (products == null || products.isEmpty()) {
+            throw new RuntimeException("Your basket is empty");
+        }
     }
 }

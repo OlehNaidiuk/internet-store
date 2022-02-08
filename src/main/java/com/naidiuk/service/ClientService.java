@@ -13,5 +13,5 @@ public interface ClientService {
     void editData();
     void deleteOneProduct();
     void deleteAllProducts();
-    void showProductsThatClientCanBuyBasedOnHisBalance();
+    void showProductsThatClientCanBuyBasedOnHisCardBalance();
 }
