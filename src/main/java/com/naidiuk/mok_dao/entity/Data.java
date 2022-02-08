@@ -12,10 +12,31 @@ import java.util.List;
 import java.util.Random;
 
 public class Data implements DataService {
+    private List<Client> clients;
+    private List<Client> clientsWithProducts;
+    private List<Product> products;
+
     @Override
     public List<Client> getClients() {
+        generateClientsList();
+        return clients;
+    }
+
+    @Override
+    public List<Product> getProducts() {
+        generateProductsList();
+        return products;
+    }
+
+    @Override
+    public List<Client> getClientsWithTheirProducts() {
+        generateClientsListWithProductsList();
+        return clientsWithProducts;
+    }
+
+    private void generateClientsList() {
         Client volodya = new Client();
-        volodya.setId(new Random().nextInt(1_000));
+        volodya.setId(1);
         volodya.setName("Vladimir");
         volodya.setSurname("Degtyaryov");
         volodya.setAge(31);
@@ -25,7 +46,7 @@ public class Data implements DataService {
         volodya.setProducts(new ArrayList<>());
 
         Client stas = new Client();
-        stas.setId(new Random().nextInt(1_000));
+        stas.setId(2);
         stas.setName("Stas");
         stas.setSurname("Gurskiy");
         stas.setAge(32);
@@ -35,7 +56,7 @@ public class Data implements DataService {
         stas.setProducts(new ArrayList<>());
 
         Client oleh = new Client();
-        oleh.setId(new Random().nextInt(1_000));
+        oleh.setId(3);
         oleh.setName("Oleh");
         oleh.setSurname("Naidiuk");
         oleh.setAge(31);
@@ -44,18 +65,15 @@ public class Data implements DataService {
         oleh.setCardBalance(601.84);
         oleh.setProducts(new ArrayList<>());
 
-        List<Client> clients = new ArrayList<>();
+        clients = new ArrayList<>(3);
         clients.add(volodya);
         clients.add(stas);
         clients.add(oleh);
-
-        return clients;
     }
 
-    @Override
-    public List<Product> getProducts() {
+    private void generateProductsList() {
         Product beerStellaArtois = new Product();
-        beerStellaArtois.setId(new Random().nextInt(10_000));
+        beerStellaArtois.setId(1);
         beerStellaArtois.setName("Stella Artois");
         beerStellaArtois.setProductType(ProductType.ALCOHOL);
         beerStellaArtois.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 45, 38));
@@ -64,7 +82,7 @@ public class Data implements DataService {
         beerStellaArtois.setDiscount(0.0);
 
         Product beerHoegaardenBlanche = new Product();
-        beerHoegaardenBlanche.setId(new Random().nextInt(10_000));
+        beerHoegaardenBlanche.setId(2);
         beerHoegaardenBlanche.setName("Hoegaarden Blanche");
         beerHoegaardenBlanche.setProductType(ProductType.ALCOHOL);
         beerHoegaardenBlanche.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 46, 38));
@@ -73,7 +91,7 @@ public class Data implements DataService {
         beerHoegaardenBlanche.setDiscount(0.0);
 
         Product finlandiaCranberry = new Product();
-        finlandiaCranberry.setId(new Random().nextInt(10_000));
+        finlandiaCranberry.setId(3);
         finlandiaCranberry.setName("Finlandia Cranberry");
         finlandiaCranberry.setProductType(ProductType.ALCOHOL);
         finlandiaCranberry.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 47, 38));
@@ -82,7 +100,7 @@ public class Data implements DataService {
         finlandiaCranberry.setDiscount(0.0);
 
         Product wineFianno = new Product();
-        wineFianno.setId(new Random().nextInt(10_000));
+        wineFianno.setId(4);
         wineFianno.setName("Fianno Di Avellino");
         wineFianno.setProductType(ProductType.ALCOHOL);
         wineFianno.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 48, 38));
@@ -91,7 +109,7 @@ public class Data implements DataService {
         wineFianno.setDiscount(0.0);
 
         Product winePuebloViejo = new Product();
-        winePuebloViejo.setId(new Random().nextInt(10_000));
+        winePuebloViejo.setId(5);
         winePuebloViejo.setName("Pueblo Viejo Reserva");
         winePuebloViejo.setProductType(ProductType.ALCOHOL);
         winePuebloViejo.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 49, 38));
@@ -100,7 +118,7 @@ public class Data implements DataService {
         winePuebloViejo.setDiscount(0.0);
 
         Product cognacRemyMartin = new Product();
-        cognacRemyMartin.setId(new Random().nextInt(10_000));
+        cognacRemyMartin.setId(6);
         cognacRemyMartin.setName("Remy Martin");
         cognacRemyMartin.setProductType(ProductType.ALCOHOL);
         cognacRemyMartin.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 50, 38));
@@ -109,7 +127,7 @@ public class Data implements DataService {
         cognacRemyMartin.setDiscount(0.0);
 
         Product tunaSteak = new Product();
-        tunaSteak.setId(new Random().nextInt(10_000));
+        tunaSteak.setId(7);
         tunaSteak.setName("Tuna Steak");
         tunaSteak.setProductType(ProductType.FISH);
         tunaSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 51, 38));
@@ -118,7 +136,7 @@ public class Data implements DataService {
         tunaSteak.setDiscount(0.0);
 
         Product seabass = new Product();
-        seabass.setId(new Random().nextInt(10_000));
+        seabass.setId(8);
         seabass.setName("Seabass");
         seabass.setProductType(ProductType.FISH);
         seabass.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 52, 38));
@@ -127,7 +145,7 @@ public class Data implements DataService {
         seabass.setDiscount(0.0);
 
         Product salmonSteak = new Product();
-        salmonSteak.setId(new Random().nextInt(10_000));
+        salmonSteak.setId(9);
         salmonSteak.setName("Salmon Steak");
         salmonSteak.setProductType(ProductType.MEAT);
         salmonSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 53, 38));
@@ -136,7 +154,7 @@ public class Data implements DataService {
         salmonSteak.setDiscount(0.0);
 
         Product plotva = new Product();
-        plotva.setId(new Random().nextInt(10_000));
+        plotva.setId(10);
         plotva.setName("Plotva");
         plotva.setProductType(ProductType.FISH);
         plotva.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 54, 38));
@@ -145,7 +163,7 @@ public class Data implements DataService {
         plotva.setDiscount(0.0);
 
         Product sudak = new Product();
-        sudak.setId(new Random().nextInt(10_000));
+        sudak.setId(11);
         sudak.setName("Sudak");
         sudak.setProductType(ProductType.FISH);
         sudak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 55, 38));
@@ -154,7 +172,7 @@ public class Data implements DataService {
         sudak.setDiscount(0.0);
 
         Product porkNeck = new Product();
-        porkNeck.setId(new Random().nextInt(10_000));
+        porkNeck.setId(12);
         porkNeck.setName("Osheek");
         porkNeck.setProductType(ProductType.MEAT);
         porkNeck.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 56, 38));
@@ -163,7 +181,7 @@ public class Data implements DataService {
         porkNeck.setDiscount(0.0);
 
         Product porkMinceFresh = new Product();
-        porkMinceFresh.setId(new Random().nextInt(10_000));
+        porkMinceFresh.setId(13);
         porkMinceFresh.setName("Pork Mince Fresh");
         porkMinceFresh.setProductType(ProductType.MEAT);
         porkMinceFresh.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 57, 38));
@@ -172,7 +190,7 @@ public class Data implements DataService {
         porkMinceFresh.setDiscount(0.0);
 
         Product beefEntrecote = new Product();
-        beefEntrecote.setId(new Random().nextInt(10_000));
+        beefEntrecote.setId(14);
         beefEntrecote.setName("Beef Entrecote");
         beefEntrecote.setProductType(ProductType.MEAT);
         beefEntrecote.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 58, 38));
@@ -181,7 +199,7 @@ public class Data implements DataService {
         beefEntrecote.setDiscount(0.0);
 
         Product sausageAlanMoscow = new Product();
-        sausageAlanMoscow.setId(new Random().nextInt(10_000));
+        sausageAlanMoscow.setId(15);
         sausageAlanMoscow.setName("Alan Moscow");
         sausageAlanMoscow.setProductType(ProductType.MEAT);
         sausageAlanMoscow.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 59, 38));
@@ -189,7 +207,7 @@ public class Data implements DataService {
         sausageAlanMoscow.setPrice(442.57);
         sausageAlanMoscow.setDiscount(0.0);
 
-        List<Product> products = new ArrayList<>(15);
+        products = new ArrayList<>(15);
         products.add(beerStellaArtois);
         products.add(beerHoegaardenBlanche);
         products.add(finlandiaCranberry);
@@ -205,24 +223,16 @@ public class Data implements DataService {
         products.add(porkMinceFresh);
         products.add(beefEntrecote);
         products.add(sausageAlanMoscow);
-
-        return products;
     }
 
-    @Override
-    public List<Client> getClientsWithTheirProducts() {
-        List<Client> clientsWithProducts = new ArrayList<>();
-        for (Client client : getClients()) {
+    private void generateClientsListWithProductsList() {
+        clientsWithProducts = new ArrayList<>(3);
+        for (Client client : clients) {
             for (int j = 0; j < new Random().nextInt(7); j++) {
-                Product product = getProducts().get(new Random().nextInt(15));
-                if (product.getProductType() == ProductType.ALCOHOL && client.getAge() >= 18) {
-                    client.getProducts().add(product);
-                } else {
-                    client.getProducts().add(product);
-                }
+                Product product = products.get(new Random().nextInt(15));
+                client.addProduct(product);
             }
             clientsWithProducts.add(client);
         }
-        return clientsWithProducts;
     }
 }

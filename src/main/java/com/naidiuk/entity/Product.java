@@ -1,7 +1,7 @@
 package com.naidiuk.entity;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
+import java.util.Objects;
 
 public class Product {
     private int id;
@@ -78,6 +78,19 @@ public class Product {
                 ", expirationDate=" + expirationDate +
                 ", price=" + price +
                 ", discount=" + discount +
-                "}";
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

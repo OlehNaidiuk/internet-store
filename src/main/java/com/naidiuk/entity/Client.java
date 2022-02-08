@@ -1,13 +1,11 @@
 package com.naidiuk.entity;
 
-import com.naidiuk.service.ClientService;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Client implements ClientService {
+public class Client {
     private int id;
     private String name;
     private String surname;
@@ -95,15 +93,18 @@ public class Client implements ClientService {
                 '}';
     }
 
-    @Override
     public void addProduct(Product product) {
         if (products == null) {
             products = new ArrayList<>();
         }
-        products.add(product);
+        if (product.getProductType() == ProductType.ALCOHOL && this.age >= 18) {
+            products.add(product);
+        } else {
+            products.add(product);
+        }
+
     }
 
-    @Override
     public void showAllProducts() {
         checkClientBasket();
         for (Product product : products) {
@@ -111,7 +112,6 @@ public class Client implements ClientService {
         }
     }
 
-    @Override
     public void sortProductsByManufacturedDateInAscending() {
         checkClientBasket();
         Comparator<Product> sortByManufacturedDateInAscendingComparator =
@@ -119,7 +119,6 @@ public class Client implements ClientService {
         products.sort(sortByManufacturedDateInAscendingComparator);
     }
 
-    @Override
     public void sortProductsByManufacturedDateInDescending() {
         checkClientBasket();
         Comparator<Product> sortByManufacturedDateInDescendingComparator =
@@ -127,7 +126,6 @@ public class Client implements ClientService {
         products.sort(sortByManufacturedDateInDescendingComparator);
     }
 
-    @Override
     public void sortProductsByExpirationDateInAscending() {
         checkClientBasket();
         Comparator<Product> sortByExpirationDateInAscendingComparator =
@@ -135,7 +133,6 @@ public class Client implements ClientService {
         products.sort(sortByExpirationDateInAscendingComparator);
     }
 
-    @Override
     public void sortProductsByExpirationDateInDescending() {
         checkClientBasket();
         Comparator<Product> sortByExpirationDateInDescendingComparator =
@@ -143,7 +140,6 @@ public class Client implements ClientService {
         products.sort(sortByExpirationDateInDescendingComparator);
     }
 
-    @Override
     public void sortProductsByProductType() {
         checkClientBasket();
         Comparator<Product> sortProductsByProductTypeComparator =
@@ -151,27 +147,32 @@ public class Client implements ClientService {
         products.sort(sortProductsByProductTypeComparator);
     }
 
-    @Override
-    public void editData() {
-
+    public void updateInformation(Client updateClient) {
+        this.id = updateClient.getId();
+        this.name = updateClient.getName();
+        this.surname = updateClient.getSurname();
+        this.age = updateClient.getAge();
+        this.dateOfBirth = updateClient.getDateOfBirth();
+        this.cardNumber = updateClient.getCardNumber();
+        this.cardBalance = updateClient.getCardBalance();
     }
 
-    @Override
-    public void deleteOneProduct() {
+    public void deleteOneProduct(Product product) {
         checkClientBasket();
-
+        products.remove(product);
     }
 
-    @Override
     public void deleteAllProducts() {
         checkClientBasket();
         products.clear();
     }
 
-    @Override
-    public void showProductsThatClientCanBuyBasedOnHisCardBalance() {
-        checkClientBasket();
-
+    public void showProductsThatClientCanBuyBasedOnHisCardBalance(List<Product> products) {
+        for (Product product : products) {
+            if (cardBalance >= product.getPrice()) {
+                System.out.println(product);
+            }
+        }
     }
 
     private void checkClientBasket() {
