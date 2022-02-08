@@ -3,9 +3,7 @@ package com.naidiuk.entity;
 import com.naidiuk.service.ClientService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -131,12 +129,16 @@ public class Client implements ClientService {
 
     @Override
     public void sortProductsByExpirationDateInAscending() {
-
+        Comparator<Product> sortByExpirationDateInAscendingComparator =
+                (o1, o2) -> o1.getExpirationDate().compareTo(o2.getExpirationDate());
+        products.sort(sortByExpirationDateInAscendingComparator);
     }
 
     @Override
     public void sortProductsByExpirationDateInDescending() {
-
+        Comparator<Product> sortByExpirationDateInDescendingComparator =
+                (o1, o2) -> o2.getExpirationDate().compareTo(o1.getExpirationDate());
+        products.sort(sortByExpirationDateInDescendingComparator);
     }
 
     @Override
