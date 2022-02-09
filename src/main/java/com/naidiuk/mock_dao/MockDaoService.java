@@ -5,8 +5,7 @@ import com.naidiuk.entity.Product;
 
 import java.util.List;
 
-public interface DataService {
+public interface MockDaoService {
     List<Client> getClientsList();
     List<Product> getProductsList();
-    List<Client> getClientsWithTheirProductsList();
 }

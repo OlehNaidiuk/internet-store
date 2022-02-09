@@ -9,27 +9,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data implements DataService {
-    private List<Client> clients;
-    private List<Client> clientsWithProducts;
-    private List<Product> products;
+public class MockDaoImplementation implements MockDaoService {
+    private List<Client> clientsList;
+    private List<Product> productsList;
+
+    public MockDaoImplementation() {
+        generateClientsList();
+        generateProductsList();
+    }
 
     @Override
     public List<Client> getClientsList() {
-        generateClientsList();
-        return clients;
+        return clientsList;
     }
 
     @Override
     public List<Product> getProductsList() {
-        generateProductsList();
-        return products;
-    }
-
-    @Override
-    public List<Client> getClientsWithTheirProductsList() {
-        generateClientsListWithProductsList();
-        return clientsWithProducts;
+        return productsList;
     }
 
     private void generateClientsList() {
@@ -37,21 +33,19 @@ public class Data implements DataService {
         neo.setId(1);
         neo.setName("Thomas");
         neo.setSurname("Anderson");
-        neo.setAge(31);
+        neo.setAge(17);
         neo.setDateOfBirth(LocalDate.of(1990, 6, 4));
         neo.setCardNumber("9916 6898 4945 5470");
         neo.setCardBalance(1983.39);
-        neo.setProducts(new ArrayList<>());
 
         Client keanu = new Client();
         keanu.setId(2);
         keanu.setName("Keanu");
         keanu.setSurname("Reeves");
-        keanu.setAge(32);
+        keanu.setAge(47);
         keanu.setDateOfBirth(LocalDate.of(1990, 2, 6));
         keanu.setCardNumber("1472 3757 2227 4782");
         keanu.setCardBalance(2707.58);
-        keanu.setProducts(new ArrayList<>());
 
         Client agentSmith = new Client();
         agentSmith.setId(3);
@@ -61,12 +55,11 @@ public class Data implements DataService {
         agentSmith.setDateOfBirth(LocalDate.of(1990, 5, 31));
         agentSmith.setCardNumber("7892 8993 8572 8538");
         agentSmith.setCardBalance(601.84);
-        agentSmith.setProducts(new ArrayList<>());
 
-        clients = new ArrayList<>(3);
-        clients.add(neo);
-        clients.add(keanu);
-        clients.add(agentSmith);
+        clientsList = new ArrayList<>(3);
+        clientsList.add(neo);
+        clientsList.add(keanu);
+        clientsList.add(agentSmith);
     }
 
     private void generateProductsList() {
@@ -74,8 +67,8 @@ public class Data implements DataService {
         beerStellaArtois.setId(1);
         beerStellaArtois.setName("Stella Artois");
         beerStellaArtois.setProductType(ProductType.ALCOHOL);
-        beerStellaArtois.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 45, 38));
-        beerStellaArtois.setExpirationDate(LocalDateTime.of(2022, 8, 7, 1, 59, 59));
+        beerStellaArtois.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 0,0,0));
+        beerStellaArtois.setExpirationDate(LocalDateTime.of(2022, 8, 7, 0,0,0));
         beerStellaArtois.setPrice(28.60);
         beerStellaArtois.setDiscount(0.0);
 
@@ -83,8 +76,8 @@ public class Data implements DataService {
         beerHoegaardenBlanche.setId(2);
         beerHoegaardenBlanche.setName("Hoegaarden Blanche");
         beerHoegaardenBlanche.setProductType(ProductType.ALCOHOL);
-        beerHoegaardenBlanche.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 46, 38));
-        beerHoegaardenBlanche.setExpirationDate(LocalDateTime.of(2022, 8, 7, 23, 11, 38));
+        beerHoegaardenBlanche.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 1,1,1));
+        beerHoegaardenBlanche.setExpirationDate(LocalDateTime.of(2022, 8, 7, 1,1,1));
         beerHoegaardenBlanche.setPrice(56.90);
         beerHoegaardenBlanche.setDiscount(0.0);
 
@@ -92,8 +85,8 @@ public class Data implements DataService {
         finlandiaCranberry.setId(3);
         finlandiaCranberry.setName("Finlandia Cranberry");
         finlandiaCranberry.setProductType(ProductType.ALCOHOL);
-        finlandiaCranberry.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 47, 38));
-        finlandiaCranberry.setExpirationDate(LocalDateTime.of(2027, 2, 7, 6, 16, 38));
+        finlandiaCranberry.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 2,2,2));
+        finlandiaCranberry.setExpirationDate(LocalDateTime.of(2027, 2, 7, 2,2,2));
         finlandiaCranberry.setPrice(218.90);
         finlandiaCranberry.setDiscount(0.0);
 
@@ -101,8 +94,8 @@ public class Data implements DataService {
         wineFianno.setId(4);
         wineFianno.setName("Fianno Di Avellino");
         wineFianno.setProductType(ProductType.ALCOHOL);
-        wineFianno.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 48, 38));
-        wineFianno.setExpirationDate(LocalDateTime.of(2025, 2, 7, 2, 33, 38));
+        wineFianno.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 3,3,3));
+        wineFianno.setExpirationDate(LocalDateTime.of(2025, 2, 7, 3,3,3));
         wineFianno.setPrice(349.90);
         wineFianno.setDiscount(0.0);
 
@@ -110,8 +103,8 @@ public class Data implements DataService {
         winePuebloViejo.setId(5);
         winePuebloViejo.setName("Pueblo Viejo Reserva");
         winePuebloViejo.setProductType(ProductType.ALCOHOL);
-        winePuebloViejo.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 49, 38));
-        winePuebloViejo.setExpirationDate(LocalDateTime.of(2025, 2, 7, 15, 42, 38));
+        winePuebloViejo.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 4,4,4));
+        winePuebloViejo.setExpirationDate(LocalDateTime.of(2025, 2, 7, 4,4,4));
         winePuebloViejo.setPrice(249.90);
         winePuebloViejo.setDiscount(0.0);
 
@@ -119,8 +112,8 @@ public class Data implements DataService {
         cognacRemyMartin.setId(6);
         cognacRemyMartin.setName("Remy Martin");
         cognacRemyMartin.setProductType(ProductType.ALCOHOL);
-        cognacRemyMartin.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 50, 38));
-        cognacRemyMartin.setExpirationDate(LocalDateTime.of(2099, 1, 1, 0, 0, 0));
+        cognacRemyMartin.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 5,5,5));
+        cognacRemyMartin.setExpirationDate(LocalDateTime.of(2099, 12, 31, 5,5,5));
         cognacRemyMartin.setPrice(2049.99);
         cognacRemyMartin.setDiscount(0.0);
 
@@ -128,8 +121,8 @@ public class Data implements DataService {
         tunaSteak.setId(7);
         tunaSteak.setName("Tuna Steak");
         tunaSteak.setProductType(ProductType.FISH);
-        tunaSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 51, 38));
-        tunaSteak.setExpirationDate(LocalDateTime.of(2022, 8, 7, 14, 28, 38));
+        tunaSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 6,6,6));
+        tunaSteak.setExpirationDate(LocalDateTime.of(2022, 8, 7, 6,6,6));
         tunaSteak.setPrice(979.90);
         tunaSteak.setDiscount(0.0);
 
@@ -137,8 +130,8 @@ public class Data implements DataService {
         seabass.setId(8);
         seabass.setName("Seabass");
         seabass.setProductType(ProductType.FISH);
-        seabass.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 52, 38));
-        seabass.setExpirationDate(LocalDateTime.of(2022, 2, 17, 9, 6, 38));
+        seabass.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 7,7,7));
+        seabass.setExpirationDate(LocalDateTime.of(2022, 2, 17, 7,7,7));
         seabass.setPrice(229.90);
         seabass.setDiscount(0.0);
 
@@ -146,8 +139,8 @@ public class Data implements DataService {
         salmonSteak.setId(9);
         salmonSteak.setName("Salmon Steak");
         salmonSteak.setProductType(ProductType.FISH);
-        salmonSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 53, 38));
-        salmonSteak.setExpirationDate(LocalDateTime.of(2022, 2, 17, 5, 25, 38));
+        salmonSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 8,8,8));
+        salmonSteak.setExpirationDate(LocalDateTime.of(2022, 2, 17, 8,8,8));
         salmonSteak.setPrice(539.90);
         salmonSteak.setDiscount(0.0);
 
@@ -155,8 +148,8 @@ public class Data implements DataService {
         plotva.setId(10);
         plotva.setName("Plotva");
         plotva.setProductType(ProductType.FISH);
-        plotva.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 54, 38));
-        plotva.setExpirationDate(LocalDateTime.of(2022, 8, 7, 7, 37, 38));
+        plotva.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 9,9,9));
+        plotva.setExpirationDate(LocalDateTime.of(2022, 8, 7, 9,9,9));
         plotva.setPrice(249.99);
         plotva.setDiscount(0.0);
 
@@ -164,8 +157,8 @@ public class Data implements DataService {
         sudak.setId(11);
         sudak.setName("Sudak");
         sudak.setProductType(ProductType.FISH);
-        sudak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 55, 38));
-        sudak.setExpirationDate(LocalDateTime.of(2022, 8, 7, 22, 19, 38));
+        sudak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 10,10,10));
+        sudak.setExpirationDate(LocalDateTime.of(2022, 8, 7, 10,10,10));
         sudak.setPrice(240.78);
         sudak.setDiscount(0.0);
 
@@ -173,8 +166,8 @@ public class Data implements DataService {
         porkNeck.setId(12);
         porkNeck.setName("Osheek");
         porkNeck.setProductType(ProductType.MEAT);
-        porkNeck.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 56, 38));
-        porkNeck.setExpirationDate(LocalDateTime.of(2022, 2, 14, 11, 53, 38));
+        porkNeck.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 11,11,11));
+        porkNeck.setExpirationDate(LocalDateTime.of(2022, 2, 14, 11,11,11));
         porkNeck.setPrice(148.99);
         porkNeck.setDiscount(0.0);
 
@@ -182,8 +175,8 @@ public class Data implements DataService {
         porkMinceFresh.setId(13);
         porkMinceFresh.setName("Pork Mince Fresh");
         porkMinceFresh.setProductType(ProductType.MEAT);
-        porkMinceFresh.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 57, 38));
-        porkMinceFresh.setExpirationDate(LocalDateTime.of(2022, 2, 14, 7, 24, 38));
+        porkMinceFresh.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 12,12,12));
+        porkMinceFresh.setExpirationDate(LocalDateTime.of(2022, 2, 14, 12,12,12));
         porkMinceFresh.setPrice(114.90);
         porkMinceFresh.setDiscount(0.0);
 
@@ -191,8 +184,8 @@ public class Data implements DataService {
         beefEntrecote.setId(14);
         beefEntrecote.setName("Beef Entrecote");
         beefEntrecote.setProductType(ProductType.MEAT);
-        beefEntrecote.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 58, 38));
-        beefEntrecote.setExpirationDate(LocalDateTime.of(2022, 2, 14, 19, 32, 38));
+        beefEntrecote.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 13,13,13));
+        beefEntrecote.setExpirationDate(LocalDateTime.of(2022, 2, 14, 13,13,13));
         beefEntrecote.setPrice(1499.00);
         beefEntrecote.setDiscount(0.0);
 
@@ -200,45 +193,26 @@ public class Data implements DataService {
         sausageAlanMoscow.setId(15);
         sausageAlanMoscow.setName("Alan Moscow");
         sausageAlanMoscow.setProductType(ProductType.MEAT);
-        sausageAlanMoscow.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 17, 59, 38));
-        sausageAlanMoscow.setExpirationDate(LocalDateTime.of(2022, 8, 7, 16, 51, 38));
+        sausageAlanMoscow.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 14,14,14));
+        sausageAlanMoscow.setExpirationDate(LocalDateTime.of(2022, 8, 7, 14,14,14));
         sausageAlanMoscow.setPrice(442.57);
         sausageAlanMoscow.setDiscount(0.0);
 
-        products = new ArrayList<>(15);
-        products.add(beerStellaArtois);
-        products.add(beerHoegaardenBlanche);
-        products.add(finlandiaCranberry);
-        products.add(wineFianno);
-        products.add(winePuebloViejo);
-        products.add(cognacRemyMartin);
-        products.add(tunaSteak);
-        products.add(seabass);
-        products.add(salmonSteak);
-        products.add(plotva);
-        products.add(sudak);
-        products.add(porkNeck);
-        products.add(porkMinceFresh);
-        products.add(beefEntrecote);
-        products.add(sausageAlanMoscow);
-    }
-
-    private void generateClientsListWithProductsList() {
-        generateClientsList();
-        generateProductsList();
-        clients.get(0).getProducts().add(products.get(4));
-        clients.get(0).getProducts().add(products.get(6));
-        clients.get(0).getProducts().add(products.get(12));
-        clients.get(1).getProducts().add(products.get(5));
-        clients.get(1).getProducts().add(products.get(8));
-        clients.get(1).getProducts().add(products.get(7));
-        clients.get(2).getProducts().add(products.get(2));
-        clients.get(2).getProducts().add(products.get(0));
-        clients.get(2).getProducts().add(products.get(0));
-        clients.get(2).getProducts().add(products.get(14));
-        clientsWithProducts = new ArrayList<>(3);
-        clientsWithProducts.add(clients.get(0));
-        clientsWithProducts.add(clients.get(1));
-        clientsWithProducts.add(clients.get(2));
+        productsList = new ArrayList<>(15);
+        productsList.add(beerStellaArtois);
+        productsList.add(beerHoegaardenBlanche);
+        productsList.add(finlandiaCranberry);
+        productsList.add(wineFianno);
+        productsList.add(winePuebloViejo);
+        productsList.add(cognacRemyMartin);
+        productsList.add(tunaSteak);
+        productsList.add(seabass);
+        productsList.add(salmonSteak);
+        productsList.add(plotva);
+        productsList.add(sudak);
+        productsList.add(porkNeck);
+        productsList.add(porkMinceFresh);
+        productsList.add(beefEntrecote);
+        productsList.add(sausageAlanMoscow);
     }
 }

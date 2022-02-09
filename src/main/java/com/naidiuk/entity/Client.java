@@ -1,6 +1,7 @@
 package com.naidiuk.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Client {
     private LocalDate dateOfBirth;
     private String cardNumber;
     private double cardBalance;
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     public int getId() {
         return id;
