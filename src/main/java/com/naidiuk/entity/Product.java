@@ -70,7 +70,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "\nProduct\n{" +
+        return "\nProduct{\n" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", productType=" + productType +
@@ -78,7 +78,7 @@ public class Product {
                 ", expirationDate=" + expirationDate +
                 ", price=" + price +
                 ", discount=" + discount +
-                '}';
+                "\n}";
     }
 
     @Override
@@ -86,11 +86,18 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.getId();
+        return getId() == product.getId()
+                && Double.compare(product.getPrice(), getPrice()) == 0
+                && Double.compare(product.getDiscount(), getDiscount()) == 0
+                && getName().equals(product.getName())
+                && getProductType() == product.getProductType()
+                && getManufacturedDate().equals(product.getManufacturedDate())
+                && getExpirationDate().equals(product.getExpirationDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId(), getName(), getProductType(), getManufacturedDate(),
+                getExpirationDate(), getPrice(), getDiscount());
     }
 }

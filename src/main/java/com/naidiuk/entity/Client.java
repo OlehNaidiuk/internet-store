@@ -1,9 +1,8 @@
 package com.naidiuk.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class Client {
     private int id;
@@ -81,7 +80,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return "\nClient\n{" +
+        return "\nClient{\n" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
@@ -90,94 +89,27 @@ public class Client {
                 ", cardNumber='" + cardNumber + '\'' +
                 ", cardBalance=" + cardBalance +
                 ", products=" + products +
-                '}';
+                "\n}";
     }
 
-    public void addProduct(Product product) {
-        if (products == null) {
-            products = new ArrayList<>();
-        }
-        if (product.getProductType() == ProductType.ALCOHOL && this.age >= 18) {
-            products.add(product);
-        } else {
-            products.add(product);
-        }
-
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return getId() == client.getId()
+                && getAge() == client.getAge()
+                && Double.compare(client.getCardBalance(), getCardBalance()) == 0
+                && getName().equals(client.getName())
+                && getSurname().equals(client.getSurname())
+                && getDateOfBirth().equals(client.getDateOfBirth())
+                && getCardNumber().equals(client.getCardNumber())
+                && getProducts().equals(client.getProducts());
     }
 
-    public void showAllProducts() {
-        checkClientBasket();
-        for (Product product : products) {
-            System.out.println(product);
-        }
-    }
-
-    public void sortProductsByManufacturedDateInAscending() {
-        checkClientBasket();
-        Comparator<Product> sortByManufacturedDateInAscendingComparator =
-                (o1, o2) -> o1.getManufacturedDate().compareTo(o2.getManufacturedDate());
-        products.sort(sortByManufacturedDateInAscendingComparator);
-    }
-
-    public void sortProductsByManufacturedDateInDescending() {
-        checkClientBasket();
-        Comparator<Product> sortByManufacturedDateInDescendingComparator =
-                (o1, o2) -> o2.getManufacturedDate().compareTo(o1.getManufacturedDate());
-        products.sort(sortByManufacturedDateInDescendingComparator);
-    }
-
-    public void sortProductsByExpirationDateInAscending() {
-        checkClientBasket();
-        Comparator<Product> sortByExpirationDateInAscendingComparator =
-                (o1, o2) -> o1.getExpirationDate().compareTo(o2.getExpirationDate());
-        products.sort(sortByExpirationDateInAscendingComparator);
-    }
-
-    public void sortProductsByExpirationDateInDescending() {
-        checkClientBasket();
-        Comparator<Product> sortByExpirationDateInDescendingComparator =
-                (o1, o2) -> o2.getExpirationDate().compareTo(o1.getExpirationDate());
-        products.sort(sortByExpirationDateInDescendingComparator);
-    }
-
-    public void sortProductsByProductType() {
-        checkClientBasket();
-        Comparator<Product> sortProductsByProductTypeComparator =
-                (o1, o2) -> o1.getProductType().compareTo(o2.getProductType());
-        products.sort(sortProductsByProductTypeComparator);
-    }
-
-    public void updateInformation(Client updateClient) {
-        this.id = updateClient.getId();
-        this.name = updateClient.getName();
-        this.surname = updateClient.getSurname();
-        this.age = updateClient.getAge();
-        this.dateOfBirth = updateClient.getDateOfBirth();
-        this.cardNumber = updateClient.getCardNumber();
-        this.cardBalance = updateClient.getCardBalance();
-    }
-
-    public void deleteOneProduct(Product product) {
-        checkClientBasket();
-        products.remove(product);
-    }
-
-    public void deleteAllProducts() {
-        checkClientBasket();
-        products.clear();
-    }
-
-    public void showProductsThatClientCanBuyBasedOnHisCardBalance(List<Product> products) {
-        for (Product product : products) {
-            if (cardBalance >= product.getPrice()) {
-                System.out.println(product);
-            }
-        }
-    }
-
-    private void checkClientBasket() {
-        if (products == null || products.isEmpty()) {
-            throw new RuntimeException("Your basket is empty");
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getSurname(), getAge(), getDateOfBirth(),
+                getCardNumber(), getCardBalance());
     }
 }
