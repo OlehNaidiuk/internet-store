@@ -33,19 +33,19 @@ public class MockDaoImplementation implements MockDaoService {
         neo.setId(1);
         neo.setName("Thomas");
         neo.setSurname("Anderson");
-        neo.setAge(17);
+        neo.setAge(27);
         neo.setDateOfBirth(LocalDate.of(1990, 6, 4));
         neo.setCardNumber("9916 6898 4945 5470");
-        neo.setCardBalance(1983.39);
+        neo.setCardBalance(2983.39);
 
         Client keanu = new Client();
         keanu.setId(2);
         keanu.setName("Keanu");
         keanu.setSurname("Reeves");
-        keanu.setAge(47);
+        keanu.setAge(17);
         keanu.setDateOfBirth(LocalDate.of(1990, 2, 6));
         keanu.setCardNumber("1472 3757 2227 4782");
-        keanu.setCardBalance(2707.58);
+        keanu.setCardBalance(707.58);
 
         Client agentSmith = new Client();
         agentSmith.setId(3);
@@ -67,8 +67,8 @@ public class MockDaoImplementation implements MockDaoService {
         beerStellaArtois.setId(1);
         beerStellaArtois.setName("Stella Artois");
         beerStellaArtois.setProductType(ProductType.ALCOHOL);
-        beerStellaArtois.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 0,0,0));
-        beerStellaArtois.setExpirationDate(LocalDateTime.of(2022, 8, 7, 0,0,0));
+        beerStellaArtois.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 2,2,2));
+        beerStellaArtois.setExpirationDate(LocalDateTime.of(2022, 8, 7, 2,2,2));
         beerStellaArtois.setPrice(28.60);
         beerStellaArtois.setDiscount(0.0);
 
@@ -85,8 +85,8 @@ public class MockDaoImplementation implements MockDaoService {
         finlandiaCranberry.setId(3);
         finlandiaCranberry.setName("Finlandia Cranberry");
         finlandiaCranberry.setProductType(ProductType.ALCOHOL);
-        finlandiaCranberry.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 2,2,2));
-        finlandiaCranberry.setExpirationDate(LocalDateTime.of(2027, 2, 7, 2,2,2));
+        finlandiaCranberry.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 0,0,0));
+        finlandiaCranberry.setExpirationDate(LocalDateTime.of(2027, 2, 7, 0,0,0));
         finlandiaCranberry.setPrice(218.90);
         finlandiaCranberry.setDiscount(0.0);
 
@@ -94,8 +94,8 @@ public class MockDaoImplementation implements MockDaoService {
         wineFianno.setId(4);
         wineFianno.setName("Fianno Di Avellino");
         wineFianno.setProductType(ProductType.ALCOHOL);
-        wineFianno.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 3,3,3));
-        wineFianno.setExpirationDate(LocalDateTime.of(2025, 2, 7, 3,3,3));
+        wineFianno.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 6,6,6));
+        wineFianno.setExpirationDate(LocalDateTime.of(2025, 2, 7, 6,6,6));
         wineFianno.setPrice(349.90);
         wineFianno.setDiscount(0.0);
 
@@ -112,8 +112,8 @@ public class MockDaoImplementation implements MockDaoService {
         cognacRemyMartin.setId(6);
         cognacRemyMartin.setName("Remy Martin");
         cognacRemyMartin.setProductType(ProductType.ALCOHOL);
-        cognacRemyMartin.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 5,5,5));
-        cognacRemyMartin.setExpirationDate(LocalDateTime.of(2099, 12, 31, 5,5,5));
+        cognacRemyMartin.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 8,8,8));
+        cognacRemyMartin.setExpirationDate(LocalDateTime.of(2099, 12, 31, 8,8,8));
         cognacRemyMartin.setPrice(2049.99);
         cognacRemyMartin.setDiscount(0.0);
 
@@ -121,8 +121,8 @@ public class MockDaoImplementation implements MockDaoService {
         tunaSteak.setId(7);
         tunaSteak.setName("Tuna Steak");
         tunaSteak.setProductType(ProductType.FISH);
-        tunaSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 6,6,6));
-        tunaSteak.setExpirationDate(LocalDateTime.of(2022, 8, 7, 6,6,6));
+        tunaSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 3,3,3));
+        tunaSteak.setExpirationDate(LocalDateTime.of(2022, 8, 7, 3,3,3));
         tunaSteak.setPrice(979.90);
         tunaSteak.setDiscount(0.0);
 
@@ -139,8 +139,8 @@ public class MockDaoImplementation implements MockDaoService {
         salmonSteak.setId(9);
         salmonSteak.setName("Salmon Steak");
         salmonSteak.setProductType(ProductType.FISH);
-        salmonSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 8,8,8));
-        salmonSteak.setExpirationDate(LocalDateTime.of(2022, 2, 17, 8,8,8));
+        salmonSteak.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 5,5,5));
+        salmonSteak.setExpirationDate(LocalDateTime.of(2022, 2, 17, 5,5,5));
         salmonSteak.setPrice(539.90);
         salmonSteak.setDiscount(0.0);
 
@@ -148,8 +148,8 @@ public class MockDaoImplementation implements MockDaoService {
         plotva.setId(10);
         plotva.setName("Plotva");
         plotva.setProductType(ProductType.FISH);
-        plotva.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 9,9,9));
-        plotva.setExpirationDate(LocalDateTime.of(2022, 8, 7, 9,9,9));
+        plotva.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 11,11,11));
+        plotva.setExpirationDate(LocalDateTime.of(2022, 8, 7, 11,11,11));
         plotva.setPrice(249.99);
         plotva.setDiscount(0.0);
 
@@ -166,8 +166,8 @@ public class MockDaoImplementation implements MockDaoService {
         porkNeck.setId(12);
         porkNeck.setName("Osheek");
         porkNeck.setProductType(ProductType.MEAT);
-        porkNeck.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 11,11,11));
-        porkNeck.setExpirationDate(LocalDateTime.of(2022, 2, 14, 11,11,11));
+        porkNeck.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 9,9,9));
+        porkNeck.setExpirationDate(LocalDateTime.of(2022, 2, 14, 9,9,9));
         porkNeck.setPrice(148.99);
         porkNeck.setDiscount(0.0);
 
@@ -175,8 +175,8 @@ public class MockDaoImplementation implements MockDaoService {
         porkMinceFresh.setId(13);
         porkMinceFresh.setName("Pork Mince Fresh");
         porkMinceFresh.setProductType(ProductType.MEAT);
-        porkMinceFresh.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 12,12,12));
-        porkMinceFresh.setExpirationDate(LocalDateTime.of(2022, 2, 14, 12,12,12));
+        porkMinceFresh.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 13,13,13));
+        porkMinceFresh.setExpirationDate(LocalDateTime.of(2022, 2, 14, 13,13,13));
         porkMinceFresh.setPrice(114.90);
         porkMinceFresh.setDiscount(0.0);
 
@@ -184,8 +184,8 @@ public class MockDaoImplementation implements MockDaoService {
         beefEntrecote.setId(14);
         beefEntrecote.setName("Beef Entrecote");
         beefEntrecote.setProductType(ProductType.MEAT);
-        beefEntrecote.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 13,13,13));
-        beefEntrecote.setExpirationDate(LocalDateTime.of(2022, 2, 14, 13,13,13));
+        beefEntrecote.setManufacturedDate(LocalDateTime.of(2022, 2, 7, 12, 12, 12));
+        beefEntrecote.setExpirationDate(LocalDateTime.of(2022, 2, 14, 12, 12, 12));
         beefEntrecote.setPrice(1499.00);
         beefEntrecote.setDiscount(0.0);
 

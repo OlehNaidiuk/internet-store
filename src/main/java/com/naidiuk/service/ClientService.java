@@ -2,25 +2,28 @@ package com.naidiuk.service;
 
 import com.naidiuk.entity.Client;
 import com.naidiuk.entity.Product;
+import com.naidiuk.entity.ProductType;
 
 import java.util.List;
 
 public interface ClientService {
-    void addProduct(int clientId, Product product);
-    List<Product> getAllAddedProducts(int clientId);
+    List<Client> getAllClients();
+    List<Client> getAllClientsOverEighteen();
+    List<Client> getAllClientsWithOneOrMoreProduct();
+    List<Client> getAllClientsWithAlcoholProductType();
+
+    List<Product> getAllProducts();
+    List<Product> getAllClientAddedProducts(int clientId);
+    List<Product> getProductsThatClientCanBuyBasedOnHisCardBalance(int clientId);
     List<Product> sortProductsByManufacturedDateInAscending();
     List<Product> sortProductsByManufacturedDateInDescending();
     List<Product> sortProductsByExpirationDateInAscending();
     List<Product> sortProductsByExpirationDateInDescending();
     List<Product> sortProductsByProductType();
-    void updateClientInformation(Client updatedClient);
+    List<Product> getAllProductsWithProductType(ProductType productType);
+
+    void addProduct(int clientId, Product product);
     void deleteOneClientProduct(int clientId, Product product);
     void deleteAllClientProducts(int clientId);
-    List<Product> showProductsThatClientCanBuyBasedOnHisCardBalance(int clientId);
-    List<Client> getAllClients();
-    List<Product> getAllProducts();
-    List<Product> getAllProductsWithProductType();
-    List<Client> getAllClientsOverEighteen();
-    List<Client> getAllClientsWithOneOrMoreProduct();
-    List<Client> getAllClientsWithAlcoholProductType();
+    void updateClientInformation(Client updatedClient);
 }

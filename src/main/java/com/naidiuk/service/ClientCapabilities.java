@@ -27,7 +27,7 @@ public class ClientCapabilities implements ClientService {
     }
 
     @Override
-    public List<Product> getAllAddedProducts(int clientId) {
+    public List<Product> getAllClientAddedProducts(int clientId) {
         Client client = findClientById(clientId);
         return client.getProducts();
 
@@ -93,7 +93,7 @@ public class ClientCapabilities implements ClientService {
     }
 
     @Override
-    public List<Product> showProductsThatClientCanBuyBasedOnHisCardBalance(int clientId) {
+    public List<Product> getProductsThatClientCanBuyBasedOnHisCardBalance(int clientId) {
         Client client = findClientById(clientId);
         List<Product> availableProductsList = new ArrayList<>();
         if (client.getProducts().isEmpty()) {
@@ -128,17 +128,21 @@ public class ClientCapabilities implements ClientService {
     }
 
     @Override
-    public List<Product> getAllProductsWithProductType() {
-        Comparator<Product> sortByProductType =
-                (o1, o2) -> o1.getProductType().compareTo(o2.getProductType());
-        return sortedProductsList(sortByProductType);
+    public List<Product> getAllProductsWithProductType(ProductType productType) {
+        List<Product> productsListWithProductType = new ArrayList<>();
+        for (Product product : getAllProducts()) {
+            if (product.getProductType() == productType) {
+                productsListWithProductType.add(product);
+            }
+        }
+        return productsListWithProductType;
     }
 
     @Override
     public List<Client> getAllClientsOverEighteen() {
         List<Client> clientsOverEighteen = new ArrayList<>();
         for (Client client : mockDaoService.getClientsList()) {
-            if (client.getAge() >= 18) {
+            if (client.getAge() > 18) {
                 clientsOverEighteen.add(client);
             }
         }
@@ -163,6 +167,7 @@ public class ClientCapabilities implements ClientService {
             for (Product clientProduct : client.getProducts()) {
                 if (clientProduct.getProductType() == ProductType.ALCOHOL) {
                     clientsWithAlcohol.add(client);
+                    break;
                 }
             }
         }
