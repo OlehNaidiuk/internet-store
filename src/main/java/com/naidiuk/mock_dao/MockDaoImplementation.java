@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockDaoImplementation implements MockDaoService {
-    private List<Client> clientsList;
-    private List<Product> productsList;
+    private final List<Client> clientsList;
+    private final List<Product> productsList;
 
     public MockDaoImplementation() {
-        generateClientsList();
-        generateProductsList();
+        clientsList = generateClientsList();
+        productsList = generateProductsList();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MockDaoImplementation implements MockDaoService {
         return productsList;
     }
 
-    private void generateClientsList() {
+    private List<Client> generateClientsList() {
         Client neo = new Client();
         neo.setId(1);
         neo.setName("Thomas");
@@ -45,7 +45,7 @@ public class MockDaoImplementation implements MockDaoService {
         keanu.setAge(17);
         keanu.setDateOfBirth(LocalDate.of(1990, 2, 6));
         keanu.setCardNumber("1472 3757 2227 4782");
-        keanu.setCardBalance(707.58);
+        keanu.setCardBalance(217.58);
 
         Client agentSmith = new Client();
         agentSmith.setId(3);
@@ -56,13 +56,14 @@ public class MockDaoImplementation implements MockDaoService {
         agentSmith.setCardNumber("7892 8993 8572 8538");
         agentSmith.setCardBalance(601.84);
 
-        clientsList = new ArrayList<>(3);
+        List<Client> clientsList = new ArrayList<>(3);
         clientsList.add(neo);
         clientsList.add(keanu);
         clientsList.add(agentSmith);
+        return clientsList;
     }
 
-    private void generateProductsList() {
+    private List<Product> generateProductsList() {
         Product beerStellaArtois = new Product();
         beerStellaArtois.setId(1);
         beerStellaArtois.setName("Stella Artois");
@@ -198,7 +199,7 @@ public class MockDaoImplementation implements MockDaoService {
         sausageAlanMoscow.setPrice(442.57);
         sausageAlanMoscow.setDiscount(0.0);
 
-        productsList = new ArrayList<>(15);
+        List<Product> productsList = new ArrayList<>(15);
         productsList.add(beerStellaArtois);
         productsList.add(beerHoegaardenBlanche);
         productsList.add(finlandiaCranberry);
@@ -214,5 +215,6 @@ public class MockDaoImplementation implements MockDaoService {
         productsList.add(porkMinceFresh);
         productsList.add(beefEntrecote);
         productsList.add(sausageAlanMoscow);
+        return productsList;
     }
 }

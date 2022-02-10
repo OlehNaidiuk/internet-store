@@ -11,60 +11,61 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ClientCapabilities implements ClientService {
+public class ClientImplementation implements ClientService {
     private final MockDaoService mockDaoService = new MockDaoImplementation();
 
     @Override
-    public void addProduct(int clientId, Product product) {
+    public boolean addProduct(int clientId, Product product) {
         Client client = findClientById(clientId);
-        if (product.getProductType() == ProductType.ALCOHOL) {
-            if (client.getAge() >= 18) {
-                client.getProducts().add(product);
-            }
-        } else {
-            client.getProducts().add(product);
+        if (client.getAge() >= 18 || product.getProductType() != ProductType.ALCOHOL) {
+            return client.getProducts().add(product);
         }
+        return false;
     }
 
     @Override
     public List<Product> getAllClientAddedProducts(int clientId) {
         Client client = findClientById(clientId);
         return client.getProducts();
-
     }
 
     @Override
     public List<Product> sortProductsByManufacturedDateInAscending() {
         Comparator<Product> sortByManufacturedDateInAscendingComparator =
-                (o1, o2) -> o1.getManufacturedDate().compareTo(o2.getManufacturedDate());
+                (currentProduct, nextProduct) ->
+                        currentProduct.getManufacturedDate().compareTo(nextProduct.getManufacturedDate());
         return sortedProductsList(sortByManufacturedDateInAscendingComparator);
     }
 
     @Override
     public List<Product> sortProductsByManufacturedDateInDescending() {
         Comparator<Product> sortByManufacturedDateInDescendingComparator =
-                (o1, o2) -> o2.getManufacturedDate().compareTo(o1.getManufacturedDate());
+                (currentProduct, nextProduct) ->
+                        nextProduct.getManufacturedDate().compareTo(currentProduct.getManufacturedDate());
         return sortedProductsList(sortByManufacturedDateInDescendingComparator);
     }
 
     @Override
     public List<Product> sortProductsByExpirationDateInAscending() {
         Comparator<Product> sortByExpirationDateInAscendingComparator =
-                (o1, o2) -> o1.getExpirationDate().compareTo(o2.getExpirationDate());
+                (currentProduct, nextProduct) ->
+                        currentProduct.getExpirationDate().compareTo(nextProduct.getExpirationDate());
         return sortedProductsList(sortByExpirationDateInAscendingComparator);
     }
 
     @Override
     public List<Product> sortProductsByExpirationDateInDescending() {
         Comparator<Product> sortByExpirationDateInDescendingComparator =
-                (o1, o2) -> o2.getExpirationDate().compareTo(o1.getExpirationDate());
+                (currentProduct, nextProduct) ->
+                        nextProduct.getExpirationDate().compareTo(currentProduct.getExpirationDate());
         return sortedProductsList(sortByExpirationDateInDescendingComparator);
     }
 
     @Override
     public List<Product> sortProductsByProductType() {
         Comparator<Product> sortProductsByProductTypeComparator =
-                (o1, o2) -> o1.getProductType().compareTo(o2.getProductType());
+                (currentProduct, nextProduct) ->
+                        currentProduct.getProductType().compareTo(nextProduct.getProductType());
         return sortedProductsList(sortProductsByProductTypeComparator);
     }
 
@@ -81,9 +82,9 @@ public class ClientCapabilities implements ClientService {
     }
 
     @Override
-    public void deleteOneClientProduct(int clientId, Product product) {
+    public boolean deleteOneClientProduct(int clientId, Product product) {
         Client client = findClientById(clientId);
-        client.getProducts().remove(product);
+        return client.getProducts().remove(product);
     }
 
     @Override
@@ -96,22 +97,10 @@ public class ClientCapabilities implements ClientService {
     public List<Product> getProductsThatClientCanBuyBasedOnHisCardBalance(int clientId) {
         Client client = findClientById(clientId);
         List<Product> availableProductsList = new ArrayList<>();
-        if (client.getProducts().isEmpty()) {
-            for (Product product : mockDaoService.getProductsList()) {
-                if (client.getCardBalance() >= product.getPrice()) {
-                    availableProductsList.add(product);
-                }
-            }
-        } else {
-            double checkAmount = 0.0;
-            for (Product clientProduct : client.getProducts()) {
-                checkAmount += clientProduct.getPrice();
-            }
-            double remainingBalance = client.getCardBalance() - checkAmount;
-            for (Product product : mockDaoService.getProductsList()) {
-                if (remainingBalance >= product.getPrice()) {
-                    availableProductsList.add(product);
-                }
+        List<Product> productsList = getAllProducts();
+        for (Product product : productsList) {
+            if (client.getCardBalance() >= product.getPrice()) {
+                availableProductsList.add(product);
             }
         }
         return availableProductsList;
@@ -130,7 +119,8 @@ public class ClientCapabilities implements ClientService {
     @Override
     public List<Product> getAllProductsWithProductType(ProductType productType) {
         List<Product> productsListWithProductType = new ArrayList<>();
-        for (Product product : getAllProducts()) {
+        List<Product> productsList = getAllProducts();
+        for (Product product : productsList) {
             if (product.getProductType() == productType) {
                 productsListWithProductType.add(product);
             }
@@ -141,7 +131,8 @@ public class ClientCapabilities implements ClientService {
     @Override
     public List<Client> getAllClientsOverEighteen() {
         List<Client> clientsOverEighteen = new ArrayList<>();
-        for (Client client : mockDaoService.getClientsList()) {
+        List<Client> clientsList = getAllClients();
+        for (Client client : clientsList) {
             if (client.getAge() > 18) {
                 clientsOverEighteen.add(client);
             }
@@ -152,7 +143,8 @@ public class ClientCapabilities implements ClientService {
     @Override
     public List<Client> getAllClientsWithOneOrMoreProduct() {
         List<Client> clientsWithOneOrMoreProduct = new ArrayList<>();
-        for (Client client : mockDaoService.getClientsList()) {
+        List<Client> clientsList = getAllClients();
+        for (Client client : clientsList) {
             if (client.getProducts().size() > 0) {
                 clientsWithOneOrMoreProduct.add(client);
             }
@@ -163,7 +155,8 @@ public class ClientCapabilities implements ClientService {
     @Override
     public List<Client> getAllClientsWithAlcoholProductType() {
         List<Client> clientsWithAlcohol = new ArrayList<>();
-        for (Client client : mockDaoService.getClientsList()) {
+        List<Client> clientsList = getAllClients();
+        for (Client client : clientsList) {
             for (Product clientProduct : client.getProducts()) {
                 if (clientProduct.getProductType() == ProductType.ALCOHOL) {
                     clientsWithAlcohol.add(client);
@@ -180,7 +173,7 @@ public class ClientCapabilities implements ClientService {
                 return client;
             }
         }
-        throw new ClientNotFoundException("Client with this id not found!");
+        throw new ClientNotFoundException("Client with this id=" + clientId + " not found!");
     }
 
     private List<Product> sortedProductsList(Comparator<Product> productComparator) {

@@ -89,10 +89,10 @@ public class Product {
         return getId() == product.getId()
                 && Double.compare(product.getPrice(), getPrice()) == 0
                 && Double.compare(product.getDiscount(), getDiscount()) == 0
-                && getName().equals(product.getName())
+                && Objects.equals(getName(), product.getName())
                 && getProductType() == product.getProductType()
-                && getManufacturedDate().equals(product.getManufacturedDate())
-                && getExpirationDate().equals(product.getExpirationDate());
+                && Objects.equals(getManufacturedDate(), product.getManufacturedDate())
+                && Objects.equals(getExpirationDate(), product.getExpirationDate());
     }
 
     @Override

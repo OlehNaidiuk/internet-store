@@ -3,320 +3,162 @@ package com.naidiuk.service;
 import com.naidiuk.entity.Client;
 import com.naidiuk.entity.Product;
 import com.naidiuk.entity.ProductType;
-import com.naidiuk.mock_dao.MockDaoImplementation;
-import com.naidiuk.mock_dao.MockDaoService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ClientServiceTest {
-    private final MockDaoService mockDaoService = new MockDaoImplementation();
-    private final ClientService clientService = new ClientCapabilities();
+    private final ClientService clientService = new ClientImplementation();
 
-    private final Client neo = mockDaoService.getClientsList().get(0);
-    private final Client keanu = mockDaoService.getClientsList().get(1);
-    private final Client agentSmith = mockDaoService.getClientsList().get(2);
+    private Client firstClient, secondClient, thirdClient;
+    private Product beer, cognac, seabass, salmon, plotva;
 
-    private final Product beer = mockDaoService.getProductsList().get(1);
-    private final Product cognac = mockDaoService.getProductsList().get(5);
-    private final Product plotva = mockDaoService.getProductsList().get(9);
-    private final Product seabass = mockDaoService.getProductsList().get(7);
-    private final Product salmon = mockDaoService.getProductsList().get(8);
+    @BeforeEach
+    void setUp() {
+        List<Client> clients = clientService.getAllClients();
+        firstClient = clients.get(0);
+        secondClient = clients.get(1);
+        thirdClient = clients.get(2);
 
-    @Test
-    void testGetAllClients() {
-        //prepare
-        List<Client> mockDaoClientsList = mockDaoService.getClientsList();
-
-        //when
-        List<Client> serviceClientsList = clientService.getAllClients();
-
-        //then
-        assertEquals(mockDaoClientsList, serviceClientsList);
-    }
-
-    @Test
-    void testGetAllClientsOverEighteen() {
-        //prepare
-        List<Client> mockDaoClientsListOverEighteen = new ArrayList<>();
-        mockDaoClientsListOverEighteen.add(neo);
-        mockDaoClientsListOverEighteen.add(agentSmith);
-
-        //when
-        List<Client> serviceClientsListOverEighteen = clientService.getAllClientsOverEighteen();
-
-        //then
-        assertEquals(mockDaoClientsListOverEighteen, serviceClientsListOverEighteen);
-    }
-
-    @Test
-    void testGetAllClientsWithOneOrMoreProduct() {
-        //prepare
-        List<Product> neoProducts = neo.getProducts();
-        neoProducts.add(beer);
-        neoProducts.add(cognac);
-
-        List<Product> keanuProducts = keanu.getProducts();
-        keanuProducts.add(plotva);
-
-        List<Client> mockDaoClientsWithOneOrMoreProduct = new ArrayList<>();
-        mockDaoClientsWithOneOrMoreProduct.add(neo);
-        mockDaoClientsWithOneOrMoreProduct.add(keanu);
-
-        //when
-        clientService.addProduct(neo.getId(), beer);
-        clientService.addProduct(neo.getId(), cognac);
-
-        clientService.addProduct(keanu.getId(), plotva);
-
-        List<Client> serviceClientsWithOneOrMoreProduct = clientService.getAllClientsWithOneOrMoreProduct();
-
-        //then
-        assertEquals(mockDaoClientsWithOneOrMoreProduct, serviceClientsWithOneOrMoreProduct);
-    }
-
-    @Test
-    void testGetAllClientsWithAlcoholProductType() {
-        //prepare
-        List<Product> neoProducts = neo.getProducts();
-        neoProducts.add(beer);
-        neoProducts.add(cognac);
-
-        List<Product> keanuProducts = keanu.getProducts();
-        keanuProducts.add(plotva);
-
-        List<Product> agentSmithProducts = agentSmith.getProducts();
-        agentSmithProducts.add(seabass);
-        agentSmithProducts.add(salmon);
-
-        List<Client> mockDaoClientsWithAlcoholProductType = new ArrayList<>();
-        mockDaoClientsWithAlcoholProductType.add(neo);
-
-        //when
-        clientService.addProduct(neo.getId(), beer);
-        clientService.addProduct(neo.getId(), cognac);
-
-        clientService.addProduct(keanu.getId(), plotva);
-
-        clientService.addProduct(agentSmith.getId(), seabass);
-        clientService.addProduct(agentSmith.getId(), salmon);
-
-        List<Client> serviceClientsWithAlcoholProductType = clientService.getAllClientsWithAlcoholProductType();
-
-        //then
-        assertEquals(mockDaoClientsWithAlcoholProductType, serviceClientsWithAlcoholProductType);
-    }
-
-    @Test
-    void testGetAllProducts() {
-        //prepare
-        List<Product> mockDaoProductsList = mockDaoService.getProductsList();
-
-        //when
-        List<Product> serviceProductsList = clientService.getAllProducts();
-
-        //then
-        assertEquals(mockDaoProductsList, serviceProductsList);
-    }
-
-    @Test
-    void testGetAllClientAddedProducts() {
-        //prepare
-        List<Product> neoProducts = neo.getProducts();
-        neoProducts.add(beer);
-        neoProducts.add(cognac);
-
-        List<Product> keanuProducts = keanu.getProducts();
-        keanuProducts.add(plotva);
-
-        List<Product> agentSmithProducts = agentSmith.getProducts();
-        agentSmithProducts.add(seabass);
-        agentSmithProducts.add(salmon);
-
-        //when
-        clientService.addProduct(neo.getId(), beer);
-        clientService.addProduct(neo.getId(), cognac);
-
-        clientService.addProduct(keanu.getId(), plotva);
-
-        clientService.addProduct(agentSmith.getId(), seabass);
-        clientService.addProduct(agentSmith.getId(), salmon);
-
-        List<Product> neoAddedProducts = clientService.getAllClientAddedProducts(neo.getId());
-        List<Product> keanuAddedProducts = clientService.getAllClientAddedProducts(keanu.getId());
-        List<Product> agentSmithAddedProducts = clientService.getAllClientAddedProducts(agentSmith.getId());
-
-        //then
-        assertEquals(neoProducts, neoAddedProducts);
-        assertEquals(keanuProducts, keanuAddedProducts);
-        assertEquals(agentSmithProducts, agentSmithAddedProducts);
-    }
-
-    @Test
-    void testGetProductsThatClientCanBuyBasedOnHisCardBalance() {
-        //prepare
-        List<Product> mockDaoProducts = mockDaoService.getProductsList();
-
-        //when
-        List<Product> productsThatNeoCanBuy = clientService.getProductsThatClientCanBuyBasedOnHisCardBalance(neo.getId());
-
-        //then
-        assertEquals(mockDaoProducts, productsThatNeoCanBuy);
-    }
-
-    @Test
-    void testSortProductsByManufacturedDateInAscending() {
-        //prepare
-        LocalDateTime first = mockDaoService.getProductsList().get(2).getManufacturedDate();
-        LocalDateTime second = mockDaoService.getProductsList().get(1).getManufacturedDate();
-        LocalDateTime last = mockDaoService.getProductsList().get(14).getManufacturedDate();
-
-        //when
-        List<Product> serviceSortedList = clientService.sortProductsByManufacturedDateInAscending();
-
-        //then
-        assertEquals(first, serviceSortedList.get(0).getManufacturedDate());
-        assertEquals(second, serviceSortedList.get(1).getManufacturedDate());
-        assertEquals(last, serviceSortedList.get(14).getManufacturedDate());
-    }
-
-    @Test
-    void testSortProductsByManufacturedDateInDescending() {
-        //prepare
-        LocalDateTime first = mockDaoService.getProductsList().get(14).getManufacturedDate();
-        LocalDateTime second = mockDaoService.getProductsList().get(12).getManufacturedDate();
-        LocalDateTime last = mockDaoService.getProductsList().get(2).getManufacturedDate();
-
-        //when
-        List<Product> serviceSortedList = clientService.sortProductsByManufacturedDateInDescending();
-
-        //then
-        assertEquals(first, serviceSortedList.get(0).getManufacturedDate());
-        assertEquals(second, serviceSortedList.get(1).getManufacturedDate());
-        assertEquals(last, serviceSortedList.get(14).getManufacturedDate());
-    }
-
-    @Test
-    void testSortProductsByExpirationDateInAscending() {
-        //prepare
-        LocalDateTime first = mockDaoService.getProductsList().get(11).getExpirationDate();
-        LocalDateTime second = mockDaoService.getProductsList().get(13).getExpirationDate();
-        LocalDateTime last = mockDaoService.getProductsList().get(5).getExpirationDate();
-
-        //when
-        List<Product> serviceSortedList = clientService.sortProductsByExpirationDateInAscending();
-
-        //then
-        assertEquals(first, serviceSortedList.get(0).getExpirationDate());
-        assertEquals(second, serviceSortedList.get(1).getExpirationDate());
-        assertEquals(last, serviceSortedList.get(14).getExpirationDate());
-    }
-
-    @Test
-    void testSortProductsByExpirationDateInDescending() {
-        //prepare
-        LocalDateTime first = mockDaoService.getProductsList().get(5).getExpirationDate();
-        LocalDateTime second = mockDaoService.getProductsList().get(2).getExpirationDate();
-        LocalDateTime last = mockDaoService.getProductsList().get(11).getExpirationDate();
-
-        //when
-        List<Product> serviceSortedList = clientService.sortProductsByExpirationDateInDescending();
-
-        //then
-        assertEquals(first, serviceSortedList.get(0).getExpirationDate());
-        assertEquals(second, serviceSortedList.get(1).getExpirationDate());
-        assertEquals(last, serviceSortedList.get(14).getExpirationDate());
-    }
-
-    @Test
-    void testsSortProductsByProductType() {
-        //prepare
-        ProductType first = mockDaoService.getProductsList().get(0).getProductType();
-        ProductType second = mockDaoService.getProductsList().get(1).getProductType();
-        ProductType last = mockDaoService.getProductsList().get(14).getProductType();
-
-        //when
-        List<Product> serviceSortedList = clientService.sortProductsByProductType();
-
-        //then
-        assertEquals(first, serviceSortedList.get(0).getProductType());
-        assertEquals(second, serviceSortedList.get(1).getProductType());
-        assertEquals(last, serviceSortedList.get(14).getProductType());
-    }
-
-    @Test
-    void testGetAllProductsWithProductType() {
-        //prepare
-        List<Product> productsWithFishProductType = new ArrayList<>(5);
-        productsWithFishProductType.add(mockDaoService.getProductsList().get(6));
-        productsWithFishProductType.add(mockDaoService.getProductsList().get(7));
-        productsWithFishProductType.add(mockDaoService.getProductsList().get(8));
-        productsWithFishProductType.add(mockDaoService.getProductsList().get(9));
-        productsWithFishProductType.add(mockDaoService.getProductsList().get(10));
-
-        //when
-        List<Product> serviceProductsWithFish = clientService.getAllProductsWithProductType(ProductType.FISH);
-
-        //then
-        assertEquals(productsWithFishProductType, serviceProductsWithFish);
+        List<Product> products = clientService.getAllProducts();
+        beer = products.get(1);
+        cognac = products.get(5);
+        seabass = products.get(7);
+        salmon = products.get(8);
+        plotva = products.get(9);
     }
 
     @Test
     void testAddProduct() {
         //prepare
-        //age = 17
-        clientService.addProduct(keanu.getId(), beer);    //alcohol
-        clientService.addProduct(keanu.getId(), cognac);  //alcohol
-        clientService.addProduct(keanu.getId(), salmon);
-        clientService.addProduct(keanu.getId(), seabass);
+        boolean alcoholAdded;
+        boolean productAdded;
 
         //when
-        List<Product> keanuProducts = clientService.getAllClientAddedProducts(keanu.getId());
+        alcoholAdded = clientService.addProduct(secondClient.getId(), beer);
+        productAdded = clientService.addProduct(secondClient.getId(), salmon);
+        List<Product> secondClientProducts = clientService.getAllClientAddedProducts(secondClient.getId());
 
         //then
-        assertEquals(2, keanuProducts.size());
+        assertFalse(alcoholAdded);
+        assertTrue(productAdded);
+        assertEquals(1, secondClientProducts.size());
     }
 
     @Test
-    void testDeleteOneClientProduct() {
+    void getAllClientAddedProducts() {
         //prepare
-        //age = 17
-        clientService.addProduct(keanu.getId(), beer);    //alcohol
-        clientService.addProduct(keanu.getId(), cognac);  //alcohol
-        clientService.addProduct(keanu.getId(), salmon);
-        clientService.addProduct(keanu.getId(), seabass);
+        List<Product> thirdClientProducts;
 
         //when
-        clientService.deleteOneClientProduct(keanu.getId(), salmon);
-        List<Product> keanuProducts = clientService.getAllClientAddedProducts(keanu.getId());
+        clientService.addProduct(thirdClient.getId(), beer);
+        clientService.addProduct(thirdClient.getId(), plotva);
+        thirdClientProducts = clientService.getAllClientAddedProducts(thirdClient.getId());
 
         //then
-        assertEquals(1, keanuProducts.size());
+        assertEquals(2, thirdClientProducts.size());
     }
 
     @Test
-    void testDeleteAllClientProducts() {
+    void sortProductsByManufacturedDateInAscending() {
         //prepare
-        //age = 17
-        clientService.addProduct(keanu.getId(), beer);    //alcohol
-        clientService.addProduct(keanu.getId(), cognac);  //alcohol
-        clientService.addProduct(keanu.getId(), salmon);
-        clientService.addProduct(keanu.getId(), seabass);
+        Product firstManufactured = clientService.getAllProducts().get(2);
+        Product secondManufactured = clientService.getAllProducts().get(1);
+        Product lastManufactured = clientService.getAllProducts().get(14);
 
         //when
-        clientService.deleteAllClientProducts(keanu.getId());
-        List<Product> keanuProducts = clientService.getAllClientAddedProducts(keanu.getId());
+        List<Product> sortedList = clientService.sortProductsByManufacturedDateInAscending();
+        Product firstInSortedList = sortedList.get(0);
+        Product secondInSortedList = sortedList.get(1);
+        Product lastInSortedList = sortedList.get(14);
 
         //then
-        assertEquals(0, keanuProducts.size());
+        assertEquals(firstManufactured, firstInSortedList);
+        assertEquals(secondManufactured, secondInSortedList);
+        assertEquals(lastManufactured, lastInSortedList);
     }
 
     @Test
-    void testUpdateClientInformation() {
+    void sortProductsByManufacturedDateInDescending() {
+        //prepare
+        Product lastManufactured = clientService.getAllProducts().get(14);
+        Product preLastManufactured = clientService.getAllProducts().get(12);
+        Product firstManufactured = clientService.getAllProducts().get(2);
+
+        //when
+        List<Product> sortedList = clientService.sortProductsByManufacturedDateInDescending();
+        Product firstInSortedList = sortedList.get(0);
+        Product secondInSortedList = sortedList.get(1);
+        Product lastInSortedList = sortedList.get(14);
+
+        //then
+        assertEquals(lastManufactured, firstInSortedList);
+        assertEquals(preLastManufactured, secondInSortedList);
+        assertEquals(firstManufactured, lastInSortedList);
+    }
+
+    @Test
+    void sortProductsByExpirationDateInAscending() {
+        //prepare
+        Product firstExpiration = clientService.getAllProducts().get(11);
+        Product secondExpiration = clientService.getAllProducts().get(13);
+        Product lastExpiration = clientService.getAllProducts().get(5);
+
+        //when
+        List<Product> sortedList = clientService.sortProductsByExpirationDateInAscending();
+        Product firstInSortedList = sortedList.get(0);
+        Product secondInSortedList = sortedList.get(1);
+        Product lastInSortedList = sortedList.get(14);
+
+        //then
+        assertEquals(firstExpiration, firstInSortedList);
+        assertEquals(secondExpiration, secondInSortedList);
+        assertEquals(lastExpiration, lastInSortedList);
+    }
+
+    @Test
+    void sortProductsByExpirationDateInDescending() {
+        //prepare
+        Product lastExpiration = clientService.getAllProducts().get(5);
+        Product preLastExpiration = clientService.getAllProducts().get(2);
+        Product firstExpiration = clientService.getAllProducts().get(11);
+
+        //when
+        List<Product> sortedList = clientService.sortProductsByExpirationDateInDescending();
+        Product firstInSortedList = sortedList.get(0);
+        Product secondInSortedList = sortedList.get(1);
+        Product lastInSortedList = sortedList.get(14);
+
+        //then
+        assertEquals(lastExpiration, firstInSortedList);
+        assertEquals(preLastExpiration, secondInSortedList);
+        assertEquals(firstExpiration, lastInSortedList);
+    }
+
+    @Test
+    void sortProductsByProductType() {
+        //prepare
+        ProductType firstType = clientService.getAllProducts().get(0).getProductType();
+        ProductType secondType = clientService.getAllProducts().get(6).getProductType();
+        ProductType lastType = clientService.getAllProducts().get(14).getProductType();
+
+        //when
+        List<Product> sortedList = clientService.sortProductsByProductType();
+        ProductType firstTypeInSortedList = sortedList.get(0).getProductType();
+        ProductType secondTypeInSortedList = sortedList.get(6).getProductType();
+        ProductType lastTypeInSortedList = sortedList.get(14).getProductType();
+
+        //then
+        assertEquals(firstType, firstTypeInSortedList);
+        assertEquals(secondType, secondTypeInSortedList);
+        assertEquals(lastType, lastTypeInSortedList);
+    }
+
+    @Test
+    void updateClientInformation() {
         //prepare
         Client updatedClient = new Client();
         updatedClient.setId(1);
@@ -327,12 +169,131 @@ class ClientServiceTest {
         updatedClient.setCardBalance(322.11);
 
         //when
-        Client beforeUpdate = neo;
         clientService.updateClientInformation(updatedClient);
-        Client afterUpdate = clientService.getAllClients().get(0);
+        Client firstClientAfterUpdate = clientService.getAllClients().get(0);
 
         //then
-        assertEquals("Thomas", beforeUpdate.getName());
-        assertEquals("Dikiy", afterUpdate.getName());
+        assertEquals(updatedClient, firstClientAfterUpdate);
+    }
+
+    @Test
+    void deleteOneClientProduct() {
+        //prepare
+        boolean productDeleted;
+        boolean productDeletedAfterAdded;
+
+        //when
+        productDeleted = clientService.deleteOneClientProduct(firstClient.getId(), plotva);
+        clientService.addProduct(firstClient.getId(), plotva);
+        productDeletedAfterAdded = clientService.deleteOneClientProduct(firstClient.getId(), plotva);
+
+        //then
+        assertFalse(productDeleted);
+        assertTrue(productDeletedAfterAdded);
+    }
+
+    @Test
+    void deleteAllClientProducts() {
+        //prepare
+        clientService.addProduct(thirdClient.getId(), cognac);
+        clientService.addProduct(thirdClient.getId(), seabass);
+
+        //when
+        clientService.deleteAllClientProducts(thirdClient.getId());
+        int clientProductsCountAfterDeletion = clientService.getAllClientAddedProducts(thirdClient.getId()).size();
+
+        //then
+        assertEquals(0, clientProductsCountAfterDeletion);
+    }
+
+    @Test
+    void getProductsThatClientCanBuyBasedOnHisCardBalance() {
+        //prepare
+        List<Product> availableProducts;
+
+        //when
+        availableProducts = clientService.getProductsThatClientCanBuyBasedOnHisCardBalance(secondClient.getId());
+
+        //then
+        assertEquals(4, availableProducts.size());
+    }
+
+    @Test
+    void testGetAllClients() {
+        //prepare
+        List<Client> clientsList;
+
+        //when
+        clientsList = clientService.getAllClients();
+
+        //then
+        assertEquals(3, clientsList.size());
+    }
+
+    @Test
+    void getAllProducts() {
+        //prepare
+        List<Product> products;
+
+        //when
+        products = clientService.getAllProducts();
+
+        //then
+        assertEquals(15, products.size());
+    }
+
+    @Test
+    void getAllProductsWithProductType() {
+        //prepare
+        List<Product> productsWithFishType;
+
+        //when
+        productsWithFishType = clientService.getAllProductsWithProductType(ProductType.FISH);
+
+        //then
+        assertEquals(5, productsWithFishType.size());
+    }
+
+    @Test
+    void getAllClientsOverEighteen() {
+        //prepare
+        List<Client> clientsOverEighteen;
+
+        //when
+        clientsOverEighteen = clientService.getAllClientsOverEighteen();
+
+        //then
+        assertEquals(2, clientsOverEighteen.size());
+    }
+
+    @Test
+    void getAllClientsWithOneOrMoreProduct() {
+        //prepare
+        clientService.addProduct(firstClient.getId(), beer);
+        clientService.addProduct(firstClient.getId(), cognac);
+        clientService.addProduct(firstClient.getId(), plotva);
+
+        clientService.addProduct(secondClient.getId(), seabass);
+
+        //when
+        List<Client> clientsWithOneOrMoreProduct = clientService.getAllClientsWithOneOrMoreProduct();
+
+        //then
+        assertEquals(2, clientsWithOneOrMoreProduct.size());
+    }
+
+    @Test
+    void getAllClientsWithAlcoholProductType() {
+        //prepare
+        clientService.addProduct(firstClient.getId(), beer);
+        clientService.addProduct(firstClient.getId(), plotva);
+
+        clientService.addProduct(thirdClient.getId(), cognac);
+
+        //when
+        List<Client> clientsWithAlcohol = clientService.getAllClientsWithAlcoholProductType();
+
+        //then
+        assertEquals(2, clientsWithAlcohol.size());
     }
 }

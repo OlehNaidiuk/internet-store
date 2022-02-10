@@ -101,11 +101,11 @@ public class Client {
         return getId() == client.getId()
                 && getAge() == client.getAge()
                 && Double.compare(client.getCardBalance(), getCardBalance()) == 0
-                && getName().equals(client.getName())
-                && getSurname().equals(client.getSurname())
-                && getDateOfBirth().equals(client.getDateOfBirth())
-                && getCardNumber().equals(client.getCardNumber())
-                && getProducts().equals(client.getProducts());
+                && Objects.equals(getName(), client.getName())
+                && Objects.equals(getSurname(), client.getSurname())
+                && Objects.equals(getDateOfBirth(), client.getDateOfBirth())
+                && Objects.equals(getCardNumber(), client.getCardNumber())
+                && Objects.equals(getProducts(), client.getProducts());
     }
 
     @Override
