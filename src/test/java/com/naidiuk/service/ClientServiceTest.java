@@ -34,36 +34,39 @@ class ClientServiceTest {
     @Test
     void testAddProduct() {
         //prepare
-        boolean alcoholAdded;
-        boolean productAdded;
+        clientService.addProduct(thirdClient.getId(), beer);
+        clientService.addProduct(thirdClient.getId(), beer);
+        clientService.addProduct(thirdClient.getId(), cognac);
 
         //when
-        alcoholAdded = clientService.addProduct(secondClient.getId(), beer);
-        productAdded = clientService.addProduct(secondClient.getId(), salmon);
+        boolean alcoholAdded = clientService.addProduct(secondClient.getId(), beer);
+        boolean productAdded = clientService.addProduct(secondClient.getId(), salmon);
+
         List<Product> secondClientProducts = clientService.getAllClientAddedProducts(secondClient.getId());
+        List<Product> thirdClientProducts = clientService.getAllClientAddedProducts(thirdClient.getId());
 
         //then
         assertFalse(alcoholAdded);
         assertTrue(productAdded);
         assertEquals(1, secondClientProducts.size());
+        assertEquals(3, thirdClientProducts.size());
     }
 
     @Test
-    void getAllClientAddedProducts() {
+    void testGetAllClientAddedProducts() {
         //prepare
-        List<Product> thirdClientProducts;
-
-        //when
         clientService.addProduct(thirdClient.getId(), beer);
         clientService.addProduct(thirdClient.getId(), plotva);
-        thirdClientProducts = clientService.getAllClientAddedProducts(thirdClient.getId());
+
+        //when
+        List<Product> thirdClientProducts = clientService.getAllClientAddedProducts(thirdClient.getId());
 
         //then
         assertEquals(2, thirdClientProducts.size());
     }
 
     @Test
-    void sortProductsByManufacturedDateInAscending() {
+    void testSortProductsByManufacturedDateInAscending() {
         //prepare
         Product firstManufactured = clientService.getAllProducts().get(2);
         Product secondManufactured = clientService.getAllProducts().get(1);
@@ -82,7 +85,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void sortProductsByManufacturedDateInDescending() {
+    void testSortProductsByManufacturedDateInDescending() {
         //prepare
         Product lastManufactured = clientService.getAllProducts().get(14);
         Product preLastManufactured = clientService.getAllProducts().get(12);
@@ -101,7 +104,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void sortProductsByExpirationDateInAscending() {
+    void testSortProductsByExpirationDateInAscending() {
         //prepare
         Product firstExpiration = clientService.getAllProducts().get(11);
         Product secondExpiration = clientService.getAllProducts().get(13);
@@ -120,7 +123,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void sortProductsByExpirationDateInDescending() {
+    void testSortProductsByExpirationDateInDescending() {
         //prepare
         Product lastExpiration = clientService.getAllProducts().get(5);
         Product preLastExpiration = clientService.getAllProducts().get(2);
@@ -139,7 +142,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void sortProductsByProductType() {
+    void testSortProductsByProductType() {
         //prepare
         ProductType firstType = clientService.getAllProducts().get(0).getProductType();
         ProductType secondType = clientService.getAllProducts().get(6).getProductType();
@@ -158,7 +161,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void updateClientInformation() {
+    void testUpdateClientInformation() {
         //prepare
         Client updatedClient = new Client();
         updatedClient.setId(1);
@@ -177,15 +180,11 @@ class ClientServiceTest {
     }
 
     @Test
-    void deleteOneClientProduct() {
-        //prepare
-        boolean productDeleted;
-        boolean productDeletedAfterAdded;
-
+    void testDeleteOneClientProduct() {
         //when
-        productDeleted = clientService.deleteOneClientProduct(firstClient.getId(), plotva);
+        boolean productDeleted = clientService.deleteOneClientProduct(firstClient.getId(), plotva);
         clientService.addProduct(firstClient.getId(), plotva);
-        productDeletedAfterAdded = clientService.deleteOneClientProduct(firstClient.getId(), plotva);
+        boolean productDeletedAfterAdded = clientService.deleteOneClientProduct(firstClient.getId(), plotva);
 
         //then
         assertFalse(productDeleted);
@@ -193,7 +192,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void deleteAllClientProducts() {
+    void testDeleteAllClientProducts() {
         //prepare
         clientService.addProduct(thirdClient.getId(), cognac);
         clientService.addProduct(thirdClient.getId(), seabass);
@@ -207,12 +206,9 @@ class ClientServiceTest {
     }
 
     @Test
-    void getProductsThatClientCanBuyBasedOnHisCardBalance() {
-        //prepare
-        List<Product> availableProducts;
-
+    void testGetProductsThatClientCanBuyBasedOnHisCardBalance() {
         //when
-        availableProducts = clientService.getProductsThatClientCanBuyBasedOnHisCardBalance(secondClient.getId());
+        List<Product> availableProducts = clientService.getProductsThatClientCanBuyBasedOnHisCardBalance(secondClient.getId());
 
         //then
         assertEquals(4, availableProducts.size());
@@ -220,54 +216,42 @@ class ClientServiceTest {
 
     @Test
     void testGetAllClients() {
-        //prepare
-        List<Client> clientsList;
-
         //when
-        clientsList = clientService.getAllClients();
+        List<Client> clientsList = clientService.getAllClients();
 
         //then
         assertEquals(3, clientsList.size());
     }
 
     @Test
-    void getAllProducts() {
-        //prepare
-        List<Product> products;
-
+    void testGetAllProducts() {
         //when
-        products = clientService.getAllProducts();
+        List<Product> products = clientService.getAllProducts();
 
         //then
         assertEquals(15, products.size());
     }
 
     @Test
-    void getAllProductsWithProductType() {
-        //prepare
-        List<Product> productsWithFishType;
-
+    void testGetAllProductsWithProductType() {
         //when
-        productsWithFishType = clientService.getAllProductsWithProductType(ProductType.FISH);
+        List<Product> productsWithFishType = clientService.getAllProductsWithProductType(ProductType.FISH);
 
         //then
         assertEquals(5, productsWithFishType.size());
     }
 
     @Test
-    void getAllClientsOverEighteen() {
-        //prepare
-        List<Client> clientsOverEighteen;
-
+    void testGetAllClientsOverEighteen() {
         //when
-        clientsOverEighteen = clientService.getAllClientsOverEighteen();
+        List<Client> clientsOverEighteen = clientService.getAllClientsOverEighteen();
 
         //then
         assertEquals(2, clientsOverEighteen.size());
     }
 
     @Test
-    void getAllClientsWithOneOrMoreProduct() {
+    void testGetAllClientsWithOneOrMoreProduct() {
         //prepare
         clientService.addProduct(firstClient.getId(), beer);
         clientService.addProduct(firstClient.getId(), cognac);
@@ -283,7 +267,7 @@ class ClientServiceTest {
     }
 
     @Test
-    void getAllClientsWithAlcoholProductType() {
+    void testGetAllClientsWithAlcoholProductType() {
         //prepare
         clientService.addProduct(firstClient.getId(), beer);
         clientService.addProduct(firstClient.getId(), plotva);
